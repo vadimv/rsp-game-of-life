@@ -30,10 +30,10 @@ public class Life {
                                         of(IntStream.range(0, cells.length)
                                                     .mapToObj(index ->
                                                         div(attr("class", "cell t" + (cells[index] ? "J" : "0")),
-                                                                on("click", c -> {
-                                                                    System.out.println("Clicked x=" + Board.x(index) + " y=" + Board.y(index));
-                                                                    useState.accept(useState.get().toggleCell(Board.x(index), Board.y(index)));
-                                                                })))))),
+                                                            on("click", c -> {
+                                                                System.out.println("Clicked x=" + Board.x(index) + " y=" + Board.y(index));
+                                                                useState.accept(useState.get().toggleCell(Board.x(index), Board.y(index)));
+                                                            })))))),
                                 div(attr("class", "controls"),
                                         button(attr("id", "start-btn"), attr("type", "button"),
                                                 when(false, () -> attr("disabled")),
