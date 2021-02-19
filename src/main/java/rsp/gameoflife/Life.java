@@ -22,26 +22,27 @@ import static rsp.dsl.Html.*;
 public class Life {
 
     public static void main(String[] args) throws Exception {
-        final Component<State> component = useState ->
-                html(head(link(attr("rel", "stylesheet"), attr("href","/res/style.css"))),
-                     body(div(attr("class", "tetris-wrapper"),
-                             div(attr("class", "board"),
-                                     of(cellsStreamWithIndices(useState.get().board.cells)
-                                             .map(cell ->
-                                                     div(attr("class", "cell t" + (cell._1 ? "J" : "0")),
-                                                         on("click", c -> {
-                                                            System.out.println("Clicked x=" + Board.x(cell._2) + " y=" + Board.y(cell._2));
-                                                            useState.accept(useState.get().toggleCell(Board.x(cell._2), Board.y(cell._2)));
-                                                     })))))),
-                             div(attr("class", "controls"),
-                                     button(attr("id", "start-btn"), attr("type", "button"),
-                                             when(false, () -> attr("disabled")),
-                                             text("Start"), on("click", c -> {
-                                                     System.out.println("Start");
-                                                     c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
-                                                                      0, 200, TimeUnit.MILLISECONDS);
-                                             })))));
-
+        final Component<State> component = useState -> {
+                final var cells = useState.get().board.cells;
+                return html(head(link(attr("rel", "stylesheet"), attr("href", "/res/style.css"))),
+                        body(div(attr("class", "tetris-wrapper"),
+                                div(attr("class", "board"),
+                                        of(IntStream.range(0, cells.length)
+                                                    .mapToObj(index ->
+                                                        div(attr("class", "cell t" + (cells[index] ? "J" : "0")),
+                                                                on("click", c -> {
+                                                                    System.out.println("Clicked x=" + Board.x(index) + " y=" + Board.y(index));
+                                                                    useState.accept(useState.get().toggleCell(Board.x(index), Board.y(index)));
+                                                                })))))),
+                                div(attr("class", "controls"),
+                                        button(attr("id", "start-btn"), attr("type", "button"),
+                                                when(false, () -> attr("disabled")),
+                                                text("Start"), on("click", c -> {
+                                                    System.out.println("Start");
+                                                    c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
+                                                            0, 200, TimeUnit.MILLISECONDS);
+                                                })))));
+        };
         final var initialState = State.initialState();
         final var s = new JettyServer(8080,
                                       "",
@@ -51,9 +52,5 @@ public class Life {
                                                           "/res/*"));
         s.start();
         s.join();
-    }
-
-    private static Stream<Tuple2<Boolean, Integer>> cellsStreamWithIndices(boolean[] cells) {
-        return IntStream.range(0, cells.length).mapToObj(idx -> new Tuple2<>(cells[idx], idx));
     }
 }
