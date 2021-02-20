@@ -31,8 +31,7 @@ public class Life {
                                                                 useState.accept(useState.get().toggleCell(Board.x(index), Board.y(index)));
                                                             })))))),
                                 div(attr("class", "controls"),
-                                        button(attr("id", "start-btn"),
-                                               attr("type", "button"),
+                                        button(attr("type", "button"),
                                                when(state.isRunning, () -> attr("disabled")),
                                                text("Start"),
                                                on("click", c -> {
@@ -41,31 +40,28 @@ public class Life {
                                                     c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
                                                             "t0",0, 200, TimeUnit.MILLISECONDS);
                                                 })),
-                                        button(attr("id", "stop-btn"),
-                                               attr("type", "button"),
+                                        button(attr("type", "button"),
                                                when(!state.isRunning, () -> attr("disabled")),
-                                                text("Stop"),
-                                                on("click", c -> {
+                                               text("Stop"),
+                                               on("click", c -> {
                                                     System.out.println("Stop");
                                                     c.cancelSchedule("t0");
                                                     useState.accept(s -> s.setIsRunning(false));
-                                                })),
-                                        button(attr("id", "cls-btn"),
-                                                attr("type", "button"),
-                                                when(state.isRunning, () -> attr("disabled")),
-                                                text("Clear"),
-                                                on("click", c -> {
+                                               })),
+                                        button(attr("type", "button"),
+                                               when(state.isRunning, () -> attr("disabled")),
+                                               text("Clear"),
+                                               on("click", c -> {
                                                     System.out.println("Clear");
                                                     useState.accept(s -> State.initialState());
-                                                })),
-                                        button(attr("id", "rnd-btn"),
-                                                attr("type", "button"),
-                                                when(state.isRunning, () -> attr("disabled")),
-                                                text("Random"),
-                                                on("click", c -> {
+                                               })),
+                                        button(attr("type", "button"),
+                                               when(state.isRunning, () -> attr("disabled")),
+                                               text("Random"),
+                                               on("click", c -> {
                                                     System.out.println("Clear");
                                                     useState.accept(s -> State.initialState(true));
-                                                })))));
+                                               })))));
         };
         final var initialState = State.initialState();
         final var s = new JettyServer(8080,
