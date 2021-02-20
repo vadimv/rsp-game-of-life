@@ -32,6 +32,10 @@
 
 }
 
+div.controls {
+    margin: 10px;
+}
+
 .cell {
     width: auto;
 }
