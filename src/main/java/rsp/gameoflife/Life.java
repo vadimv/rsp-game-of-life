@@ -38,7 +38,7 @@ public class Life {
                                                     System.out.println("Start");
                                                     useState.accept(s -> s.setIsRunning(true));
                                                     c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
-                                                            "t0",0, 200, TimeUnit.MILLISECONDS);
+                                                                         "t0",0, 200, TimeUnit.MILLISECONDS);
                                                 })),
                                         button(attr("type", "button"),
                                                when(!state.isRunning, () -> attr("disabled")),
