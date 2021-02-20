@@ -18,7 +18,8 @@ public class Life {
 
     public static void main(String[] args) throws Exception {
         final Component<State> component = useState -> {
-                final var cells = useState.get().board.cells;
+                final var state = useState.get();
+                final var cells = state.board.cells;
                 return html(head(link(attr("rel", "stylesheet"), attr("href", "/res/style.css"))),
                         body(div(attr("class", "tetris-wrapper"),
                                 div(attr("class", "board"),
@@ -30,12 +31,40 @@ public class Life {
                                                                 useState.accept(useState.get().toggleCell(Board.x(index), Board.y(index)));
                                                             })))))),
                                 div(attr("class", "controls"),
-                                        button(attr("id", "start-btn"), attr("type", "button"),
-                                                when(false, () -> attr("disabled")),
-                                                text("Start"), on("click", c -> {
+                                        button(attr("id", "start-btn"),
+                                               attr("type", "button"),
+                                               when(state.isRunning, () -> attr("disabled")),
+                                               text("Start"),
+                                               on("click", c -> {
                                                     System.out.println("Start");
+                                                    useState.accept(s -> s.setIsRunning(true));
                                                     c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
-                                                            0, 200, TimeUnit.MILLISECONDS);
+                                                            "t0",0, 200, TimeUnit.MILLISECONDS);
+                                                })),
+                                        button(attr("id", "stop-btn"),
+                                               attr("type", "button"),
+                                               when(!state.isRunning, () -> attr("disabled")),
+                                                text("Stop"),
+                                                on("click", c -> {
+                                                    System.out.println("Stop");
+                                                    c.cancelSchedule("t0");
+                                                    useState.accept(s -> s.setIsRunning(false));
+                                                })),
+                                        button(attr("id", "cls-btn"),
+                                                attr("type", "button"),
+                                                when(state.isRunning, () -> attr("disabled")),
+                                                text("Clear"),
+                                                on("click", c -> {
+                                                    System.out.println("Clear");
+                                                    useState.accept(s -> State.initialState());
+                                                })),
+                                        button(attr("id", "rnd-btn"),
+                                                attr("type", "button"),
+                                                when(state.isRunning, () -> attr("disabled")),
+                                                text("Random"),
+                                                on("click", c -> {
+                                                    System.out.println("Clear");
+                                                    useState.accept(s -> State.initialState(true));
                                                 })))));
         };
         final var initialState = State.initialState();

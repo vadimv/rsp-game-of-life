@@ -1,9 +1,13 @@
 package rsp.gameoflife;
 
+import java.util.Random;
+
 public class Board {
     public static final int HEIGHT = 50;
     public static final int WIDTH = 100;
     private static final int LENGTH = HEIGHT * WIDTH;
+
+    private static final float RANDOM_FILL_RATIO = 0.8f;
 
     public final boolean[] cells;
 
@@ -11,8 +15,17 @@ public class Board {
         this.cells = cells;
     }
 
-    public static Board create() {
-        return new Board(new boolean[HEIGHT * WIDTH]);
+    public static Board create(boolean random) {
+        return new Board(random ? randomFilled(LENGTH) : new boolean[LENGTH]);
+    }
+
+    private static boolean[] randomFilled(int size) {
+        final boolean[] b = new boolean[size];
+        final Random random = new Random();
+        for (int i = 0; i < size; i++) {
+            b[i] = random.nextFloat() > RANDOM_FILL_RATIO;
+        }
+        return b;
     }
 
     public static int x(int index) {

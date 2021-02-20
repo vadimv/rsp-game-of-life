@@ -22,10 +22,6 @@
    margin: 10px;
 }
 
-#start-btn {
-    padding: 5px 10px;
-}
-
 .board {
     display: grid;
     grid-template-rows: repeat(50, 10px);
