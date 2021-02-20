@@ -59,7 +59,7 @@ public class Life {
                                                when(state.isRunning, () -> attr("disabled")),
                                                text("Random"),
                                                on("click", c -> {
-                                                    System.out.println("Clear");
+                                                    System.out.println("Random");
                                                     useState.accept(s -> State.initialState(true));
                                                })))));
         };
