@@ -18,9 +18,9 @@ public class Life {
 
     public static void main(String[] args) throws Exception {
         final Component<State> component = useState -> {
-                final var state = useState.get();
-                final var cells = state.board.cells;
-                return html(head(title("Conway's Game of Life"),
+            final var state = useState.get();
+            final var cells = state.board.cells;
+            return html(head(title("Conway's Game of Life"),
                             link(attr("rel", "stylesheet"),
                             attr("href", "/res/style.css"))),
                         body(div(attr("class", "tetris-wrapper"),
