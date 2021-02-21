@@ -88,6 +88,4 @@ public class Board {
     private static int b2i(boolean value) {
         return value ? 1 : 0;
     }
-
-
 }

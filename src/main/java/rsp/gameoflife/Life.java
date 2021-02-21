@@ -20,7 +20,9 @@ public class Life {
         final Component<State> component = useState -> {
                 final var state = useState.get();
                 final var cells = state.board.cells;
-                return html(head(link(attr("rel", "stylesheet"), attr("href", "/res/style.css"))),
+                return html(head(title("Conway's Game of Life"),
+                            link(attr("rel", "stylesheet"),
+                            attr("href", "/res/style.css"))),
                         body(div(attr("class", "tetris-wrapper"),
                                 div(attr("class", "board"),
                                         of(IntStream.range(0, cells.length)
