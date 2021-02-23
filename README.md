@@ -1,8 +1,6 @@
 # Conway's Game of Life
 A Java single-page web application of Conway's Game of Life.
 
-
-
 ## Usage
 
 This project requires Java 11 or newer.
