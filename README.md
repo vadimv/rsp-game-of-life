@@ -12,3 +12,5 @@ $ java -Drsp.log.level=info -jar ./target/rsp-game-of-life-0.1-SNAPSHOT-jar-with
 ```
 
 Navigate to http://localhost:8080.
+
+![Screenshot](./game-of-life.png)
