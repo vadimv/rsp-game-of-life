@@ -14,3 +14,9 @@ $ java -Drsp.log.level=info -jar ./target/rsp-game-of-life-0.1-SNAPSHOT-jar-with
 Navigate to http://localhost:8080.
 
 ![Screenshot](./game-of-life.png)
+
+## Rules
+
+- Survivals: every cell with two or three neighboring counters survives for the next generation.
+- Deaths: each cell with four or more neighbors dies (is removed) from overpopulation. Every cell with one neighbor or none dies from isolation.
+- Births: each empty cell adjacent to exactly three neighbors — no more, no fewer — become a birth cell.
