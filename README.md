@@ -17,6 +17,6 @@ Navigate to http://localhost:8080.
 
 ## Rules
 
-- Survivals: every cell with two or three neighboring counters survives for the next generation.
-- Deaths: each cell with four or more neighbors dies (is removed) from overpopulation. Every cell with one neighbor or none dies from isolation.
-- Births: each empty cell adjacent to exactly three neighbors — no more, no fewer — become a birth cell.
+- Survivals. Every cell with two or three neighboring counters survives for the next generation.
+- Deaths. Each cell with four or more neighbors dies (is removed) from overpopulation. Every cell with one neighbor or none dies from isolation.
+- Births. Each empty cell adjacent to exactly three neighbors — no more, no fewer — become a birth cell.
