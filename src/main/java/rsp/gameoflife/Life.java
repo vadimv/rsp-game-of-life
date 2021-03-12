@@ -3,6 +3,7 @@ package rsp.gameoflife;
 import rsp.App;
 import rsp.Component;
 import rsp.jetty.JettyServer;
+import rsp.ref.TimerRef;
 import rsp.server.StaticResources;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import static rsp.dsl.Html.*;
  * An implementation of Conway's Game of Life.
  */
 public class Life {
+    private static final TimerRef TIMER_REF = createTimerRef();
 
     public static void main(String[] args) throws Exception {
         final Component<State> component = useState -> {
@@ -27,7 +29,7 @@ public class Life {
                                 div(attr("class", "board"),
                                         of(IntStream.range(0, cells.length)
                                                     .mapToObj(index ->
-                                                        div(attr("class", "cell t" + (cells[index] ? "J" : "0")),
+                                                        div(attr("class", "c" + (cells[index] ? "1" : "0")),
                                                             on("click", c -> {
                                                                 System.out.println("Clicked x=" + Board.x(index) + " y=" + Board.y(index));
                                                                 useState.accept(useState.get().toggleCell(Board.x(index), Board.y(index)));
@@ -40,14 +42,14 @@ public class Life {
                                                     System.out.println("Start");
                                                     useState.accept(s -> s.setIsRunning(true));
                                                     c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
-                                                                         "t0",0, 200, TimeUnit.MILLISECONDS);
+                                                                          TIMER_REF,0, 200, TimeUnit.MILLISECONDS);
                                                 })),
                                         button(attr("type", "button"),
                                                when(!state.isRunning, () -> attr("disabled")),
                                                text("Stop"),
                                                on("click", c -> {
                                                     System.out.println("Stop");
-                                                    c.cancelSchedule("t0");
+                                                    c.cancelSchedule(TIMER_REF);
                                                     useState.accept(s -> s.setIsRunning(false));
                                                })),
                                         button(attr("type", "button"),

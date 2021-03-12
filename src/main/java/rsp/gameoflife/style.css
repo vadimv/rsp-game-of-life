@@ -36,46 +36,14 @@ div.controls {
     margin: 10px;
 }
 
-.cell {
+.c0 {
     width: auto;
-}
-
-.t0 {
     background: rgba(211, 211, 211, 0.8);
     border: 0px solid;
 }
 
-.tI {
-    background: rgba(80, 227, 230, 0.8);
-    border: 3px solid;
-}
-
-.tJ {
+.c1 {
+    width: auto;
     background: rgba(36, 95, 223, 0.8);
-    border: 3px solid;
-}
-
-.tL {
-    background: rgba(223, 173, 36, 0.8);
-    border: 3px solid;
-}
-
-.tO {
-    background: rgba(223, 217, 36, 0.8);
-    border: 3px solid;
-}
-
-.tS {
-    background: rgba(48, 211, 56, 0.8);
-    border: 3px solid;
-}
-
-.tT {
-    background: rgba(132, 61, 198, 0.8);
-    border: 3px solid;
-}
-
-.tZ {
-    background: rgba(227, 78, 78, 0.8);
     border: 3px solid;
 }
