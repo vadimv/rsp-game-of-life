@@ -7,7 +7,7 @@ public class Board {
     public static final int WIDTH = 100;
     private static final int LENGTH = HEIGHT * WIDTH;
 
-    private static final float RANDOM_FILL_RATIO = 0.8f;
+    private static final float RANDOM_FILL_RATIO = 0.2f;
 
     public final boolean[] cells;
 
@@ -23,7 +23,7 @@ public class Board {
         final boolean[] b = new boolean[size];
         final Random random = new Random();
         for (int i = 0; i < size; i++) {
-            b[i] = random.nextFloat() > RANDOM_FILL_RATIO;
+            b[i] = random.nextFloat() < RANDOM_FILL_RATIO;
         }
         return b;
     }
