@@ -16,9 +16,9 @@ import static rsp.dsl.Html.*;
  * An implementation of Conway's Game of Life.
  */
 public class Life {
-    private static final TimerRef TIMER_REF = createTimerRef();
+    private static final TimerRef TIMER_REF = TimerRef.createTimerRef();
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         final Component<State> component = useState -> {
             final var state = useState.get();
             final var cells = state.board.cells;
@@ -41,7 +41,7 @@ public class Life {
                                                on("click", c -> {
                                                     System.out.println("Start");
                                                     useState.accept(s -> s.setIsRunning(true));
-                                                    c.scheduleAtFixedRate(() -> useState.accept(s -> s.advance()),
+                                                    c.scheduleAtFixedRate(() -> useState.accept(State::advance),
                                                                           TIMER_REF,0, 200, TimeUnit.MILLISECONDS);
                                                 })),
                                         button(attr("type", "button"),
@@ -70,7 +70,7 @@ public class Life {
         final var initialState = State.initialState();
         final var s = new JettyServer(8080,
                                       "",
-                                       new App(initialState,
+                                       new App<>(initialState,
                                                component),
                                        new StaticResources(new File("src/main/java/rsp/gameoflife"),
                                                           "/res/*"));
