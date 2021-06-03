@@ -1,5 +1,5 @@
 # Conway's Game of Life
-A Conway's Game of Life server.
+A Conway's Game of Life as a Java server-state web application.
 
 ## Usage
 
@@ -11,7 +11,7 @@ $ mvn clean package
 $ java -Drsp.log.level=info -jar ./target/rsp-game-of-life-0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-Navigate to http://localhost:8080.
+Navigate the browser to http://localhost:8080.
 
 ![Screenshot](./game-of-life.png)
 
