@@ -16,6 +16,7 @@ import static rsp.dsl.Html.*;
  * An implementation of Conway's Game of Life.
  */
 public class Life {
+    private static final int NEXT_GENERATION_DELAY_MS = 200;
     private static final TimerRef TIMER_REF = TimerRef.createTimerRef();
 
     public static void main(String[] args) {
@@ -42,7 +43,7 @@ public class Life {
                                                     System.out.println("Start");
                                                     useState.accept(s -> s.setIsRunning(true));
                                                     c.scheduleAtFixedRate(() -> useState.accept(State::advance),
-                                                                          TIMER_REF,0, 200, TimeUnit.MILLISECONDS);
+                                                                          TIMER_REF,0, NEXT_GENERATION_DELAY_MS, TimeUnit.MILLISECONDS);
                                                 })),
                                         button(attr("type", "button"),
                                                when(!state.isRunning, () -> attr("disabled")),
