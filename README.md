@@ -1,5 +1,5 @@
 # Conway's Game of Life
-A Conway's Game of Life as a Java server-state web application.
+Game of Life as a Java server-state web application.
 
 ## Usage
 
