@@ -1,7 +1,7 @@
 package rsp.gameoflife;
 
-import rsp.App;
 import rsp.component.*;
+import rsp.component.definitions.StatefulComponentDefinition;
 import rsp.jetty.WebServer;
 import rsp.server.StaticResources;
 
@@ -18,21 +18,23 @@ import static rsp.html.HtmlDsl.*;
  * An implementation of Conway's Game of Life.
  */
 public class Life {
-    private static final int NEXT_GENERATION_DELAY_MS = 200;
+    private static final int NEXT_GENERATION_DELAY_MS = 50;
 
     public static void main(String[] args) {
         final StatefulComponentDefinition<State> componentDefinition = new StatefulComponentDefinition<>(Life.class) {
 
             private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(8);
             private final Map<Object, ScheduledFuture<?>> schedules = new HashMap<>();
+
+
             @Override
-            protected ComponentStateSupplier<State> stateSupplier() {
-                return (key, httpStateOrigin) -> CompletableFuture.completedFuture(State.initialState());
+            public ComponentStateSupplier<State> initStateSupplier() {
+                return (key, httpStateOrigin) -> State.initialState();
             }
 
             @Override
-            protected ComponentView<State> componentView() {
-                return state -> newState -> {
+            public ComponentView<State> componentView() {
+                return  newState -> state -> {
                     final var cells = state.board.cells;
                     return html(head(title("Conway's Game of Life"),
                                     link(attr("rel", "stylesheet"),
@@ -78,9 +80,10 @@ public class Life {
                 };
             }
 
+
             @Override
-            protected ComponentUpdatedCallback<State> componentDidUpdate() {
-                return (key, oldState, state, newState) -> {
+            public ComponentUpdatedCallback<State> onComponentUpdatedCallback() {
+                return (key,  oldState, state, newState) -> {
                     if (!oldState.isRunning && state.isRunning) {
                         scheduleAtFixedRate(() -> newState.applyStateTransformation(State::advance),
                                             key,
@@ -98,8 +101,10 @@ public class Life {
                 schedules.put(key, timer);
             }
 
+
+
             @Override
-            protected ComponentUnmountedCallback<State> componentWillUnmount() {
+            public ComponentUnmountedCallback<State> onComponentUnmountedCallback() {
                 return (key, state) -> {
                     cancelSchedule(key);
                 };
@@ -113,14 +118,11 @@ public class Life {
                 }
             }
 
-            @Override
-            protected ComponentMountedCallback<State> componentDidMount() {
-                return (key, state, newState) -> {};
-            }
+
         };
 
-        final var s = new WebServer(8080,
-                                      new App<>(componentDefinition),
+        final var s = new WebServer(8082,
+                                      httpRequest -> componentDefinition,
                                       new StaticResources(new File("src/main/java/rsp/gameoflife"),
                                                          "/res/*"));
         s.start();
